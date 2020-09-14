@@ -65,10 +65,33 @@ Three types of caching strategies are supported:
 
 ## Binding additional types
 
-You may bind multiple types to a dependency registration, passing an optional closure to convert to that type:
+You may bind multiple types to a dependency registration using `.bind`, passing an optional closure to convert to that type:
 
         weak(named: "TestSubject") { PublishSubject<Void>() }
                 .bind(Observable<Void>.self) { $0.asObservable() }
                 .bind(AnyObserver<Void>.self) { $0.asObserver() }
                 
 This closure is optional if the original type implements a protocol, since the default is `{ $0 as! NewType }`, but obviously this will result in a runtime crash if the forced cast is not possible.
+
+## Running code after initialization:
+
+You may perform an action after a dependency is initialized using `.then`:
+
+        private class CircularDependencyOne {
+            let dependencyTwo: CircularDependencyTwo
+
+            init(_ dependencyTwo: CircularDependencyTwo) {
+                self.dependencyTwo = dependencyTwo
+            }
+        }
+
+        private class CircularDependencyTwo {
+            var dependencyOne: CircularDependencyOne?
+        }
+
+        single { CircularDependencyOne(get()) }
+            .then {
+                $0.dependencyTwo.dependencyOne = $0
+            }
+
+        single { CircularDependencyTwo() }
