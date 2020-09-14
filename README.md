@@ -71,7 +71,9 @@ You may bind multiple types to a dependency registration using `.bind`, passing 
                 .bind(Observable<Void>.self) { $0.asObservable() }
                 .bind(AnyObserver<Void>.self) { $0.asObserver() }
                 
-This closure is optional if the original type implements a protocol, since the default is `{ $0 as! NewType }`, but obviously this will result in a runtime crash if the forced cast is not possible.
+Bound types share the same name and cache strategy as the dependency they are bound to.
+
+The closure is optional if the original type implements a protocol, since the default is `{ $0 as! NewType }`, but obviously this will result in a runtime crash if the forced cast is not possible.
 
 ## Running code after initialization:
 
