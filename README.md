@@ -54,3 +54,21 @@ Named dependencies are supported:
         @Inject(named: "TestSubject") private var testObservable: Observable<Void>
         
         let observer: PublishSubject = get(named: "TestSubject")
+
+## Cache types
+
+Three types of caching strategies are supported:
+
+- A `single` dependency is created once as long as the module remains loaded, i.e., a singleton
+- A `factory` dependency is re-created any time it is resolved
+- A `weak` dependency is re-created if there are no other strong references to any previously created instance of that type
+
+## Binding additional types
+
+You may bind multiple types to a dependency registration, passing an optional closure to convert to that type:
+
+        weak(named: "TestSubject") { PublishSubject<Void>() }
+                .bind(Observable<Void>.self) { $0.asObservable() }
+                .bind(AnyObserver<Void>.self) { $0.asObserver() }
+                
+This closure is optional if the original type implements a protocol, since the default is `{ $0 as! NewType }`, but obviously this will result in a runtime crash if the forced cast is not possible.
