@@ -88,10 +88,12 @@ You may perform an action after a dependency is initialized using `.then`:
         private class CircularDependencyTwo {
             var dependencyOne: CircularDependencyOne?
         }
+        
+        let testModule = Module {
+                single { CircularDependencyOne(get()) }
+                    .then {
+                        $0.dependencyTwo.dependencyOne = $0
+                    }
 
-        single { CircularDependencyOne(get()) }
-            .then {
-                $0.dependencyTwo.dependencyOne = $0
-            }
-
-        single { CircularDependencyTwo() }
+                single { CircularDependencyTwo() }
+        }
