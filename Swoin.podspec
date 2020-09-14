@@ -9,11 +9,11 @@ Pod::Spec.new do |spec|
 
   spec.homepage     = "http://github.io/ajpolt/Swoin"
 
-  spec.license      = { :type => "MIT", :file => "LICENSE" }
+  spec.license      = { :type => "Apache License, Version 2.0", :file => "LICENSE" }
 
   spec.author        = { "Adam Polt" => "adam@adampolt.com" }
 
-  spec.source        = { :git => "http://github.com/ajpolt/Swoin.git", :tag => "#{spec.version}" }
+  spec.source        = { :git => "http://github.com/ajpolt/swoin.git", :tag => "#{spec.version}" }
 
   spec.source_files  = "Swoin", "Swoin/Dependencies", "Swoin/ResolutionStrategies"
 end
