@@ -7,17 +7,14 @@
 //
 
 class SingleDependencyCache: DependencyCache {
-    var cache = [String : Any]()
-    
+    var cache = [String: Any]()
+
     public func resolve<T>(entry: DependencyEntry<T>) -> T? {
         let cacheKey = "\(entry.key):\(entry.name ?? "")"
 
         if cache[cacheKey] == nil {
-            print("Initializing Single dependency for \(T.self) \(entry.name != nil ? "named \(entry.name!)" : "")")
             cache[cacheKey] = entry.createDependency()
         }
-
-        print("Resolving Single dependency for \(T.self) \(entry.name != nil ? "named \(entry.name!)" : "")")
 
         return cache[cacheKey] as? T
     }

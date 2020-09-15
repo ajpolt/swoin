@@ -10,7 +10,7 @@ struct CacheHolder {
     private lazy var single = SingleDependencyCache()
     private lazy var factory = FactoryDependencyCache()
     private lazy var weak = WeakDependencyCache()
-    
+
     public mutating func getCache(type: CacheType) -> DependencyCache {
         switch type {
         case .single:

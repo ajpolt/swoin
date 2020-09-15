@@ -9,7 +9,7 @@
 public protocol Dependency {
     var name: String? { get }
     var cacheType: CacheType { get }
-    
+
     func register(_ module: Module)
     func bind<NewType>(_ type: NewType.Type) -> Dependency
 }

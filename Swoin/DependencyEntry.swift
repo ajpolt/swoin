@@ -11,14 +11,14 @@ public class DependencyEntry<T> {
     public var name: String?
     public var cacheType: CacheType
     public var factory: () -> T
-    
+
     init(key: Int, named name: String?, cacheType: CacheType, factory: @escaping () -> T) {
         self.key = key
         self.name = name
         self.cacheType = cacheType
         self.factory = factory
     }
-    
+
     func createDependency() -> T {
         return factory()
     }

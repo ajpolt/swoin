@@ -12,41 +12,47 @@ public class BoundDependency<ExistingType, AdditionalType>: Dependency {
 
     public let name: String?
     public let cacheType: CacheType
-    
+
     let converter: (ExistingType) -> AdditionalType
-    
-    init(wrappedDependency: Dependency, wrappedFactory: @escaping () -> ExistingType, converter: @escaping (ExistingType) -> AdditionalType) {
+
+    init(wrappedDependency: Dependency,
+         wrappedFactory: @escaping () -> ExistingType,
+         converter: @escaping (ExistingType) -> AdditionalType) {
         self.wrappedDependency = wrappedDependency
         self.wrappedFactory = wrappedFactory
         self.name = wrappedDependency.name
         self.cacheType = wrappedDependency.cacheType
         self.converter = converter
     }
-    
+
     public func register(_ module: Module) {
         wrappedDependency.register(module)
-        
+
         module.bind(additionalType: AdditionalType.self, to: ExistingType.self, named: name, converter: self.converter)
     }
-    
+
     public func bind<NewType>(_ type: NewType.Type) -> Dependency {
         return self.bind(type) {
             $0 as! NewType
         }
     }
-    
-    public func bind<NewType>(_ type: NewType.Type, _ converter: @escaping (ExistingType) -> NewType)  -> BoundDependency<ExistingType, NewType> {
+
+    public func bind<NewType>(_ type: NewType.Type,
+                              _ converter: @escaping (ExistingType) -> NewType)
+                                -> BoundDependency<ExistingType, NewType> {
         if NewType.self == ExistingType.self {
             fatalError("Attempt to bind \(ExistingType.self) to \(NewType.self). Binding twice to the same type is not allowed.")
         }
         if NewType.self == AdditionalType.self {
             fatalError("Attempt to bind \(AdditionalType.self) to \(NewType.self). Binding twice to the same type is not allowed.")
         }
-        
-        return BoundDependency<ExistingType, NewType>(wrappedDependency: self, wrappedFactory: self.wrappedFactory, converter: converter)
+
+        return BoundDependency<ExistingType, NewType>(wrappedDependency: self,
+                                                      wrappedFactory: self.wrappedFactory,
+                                                      converter: converter)
     }
-    
-    public func then(_ closure: @escaping (ExistingType) -> ()) -> Dependency {
+
+    public func then(_ closure: @escaping (ExistingType) -> Void) -> Dependency {
         return ResolvableDependency<ExistingType>(ExistingType.self, named: name, cacheType: self.cacheType) {
             let value = self.wrappedFactory()
             closure(value)
