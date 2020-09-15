@@ -106,7 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				60D37FA2250BF3AA00055C6D /* Dependencies */,
-				60D37F8B250BF24000055C6D /* ResolutionStrategies */,
+				60D37F8B250BF24000055C6D /* Cache */,
 				60D37F72250BF20E00055C6D /* Swoin.h */,
 				60D37F73250BF20E00055C6D /* Info.plist */,
 				60D37F89250BF23200055C6D /* Swoin.swift */,
@@ -127,7 +127,7 @@
 			path = SwoinTests;
 			sourceTree = "<group>";
 		};
-		60D37F8B250BF24000055C6D /* ResolutionStrategies */ = {
+		60D37F8B250BF24000055C6D /* Cache */ = {
 			isa = PBXGroup;
 			children = (
 				60D37F96250BF2F800055C6D /* CacheType.swift */,
@@ -137,7 +137,7 @@
 				60D37F9C250BF33700055C6D /* WeakDependencyCache.swift */,
 				60D37F9E250BF34E00055C6D /* DependencyCache.swift */,
 			);
-			path = ResolutionStrategies;
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		60D37FA2250BF3AA00055C6D /* Dependencies */ = {
