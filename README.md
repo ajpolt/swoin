@@ -6,7 +6,7 @@ Swoin is a dependency injection framework for Swift, inspired by [Koin](https://
 
 Add the framework to your project, e.g., with Cocoapods:
 
-`pod 'Swoin', :git => 'https://github.com/ajpolt/swoin.git'`
+`pod 'Swoin'`
 
 Add your dependencies to some modules:
 
