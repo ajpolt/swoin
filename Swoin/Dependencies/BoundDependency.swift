@@ -40,11 +40,12 @@ public class BoundDependency<ExistingType, AdditionalType>: Dependency {
     public func bind<NewType>(_ type: NewType.Type,
                               _ converter: @escaping (ExistingType) -> NewType)
                                 -> BoundDependency<ExistingType, NewType> {
-        if NewType.self == ExistingType.self {
-            fatalError("Attempt to bind \(ExistingType.self) to \(NewType.self). Binding twice to the same type is not allowed.")
+        guard NewType.self != ExistingType.self else {
+            fatalError("Attempt to bind \(NewType.self) to \(ExistingType.self) which is already bound")
         }
-        if NewType.self == AdditionalType.self {
-            fatalError("Attempt to bind \(AdditionalType.self) to \(NewType.self). Binding twice to the same type is not allowed.")
+
+        guard NewType.self != AdditionalType.self else {
+            fatalError("Attempt to bind \(NewType.self) to \(AdditionalType.self) which is already bound.")
         }
 
         return BoundDependency<ExistingType, NewType>(wrappedDependency: self,
