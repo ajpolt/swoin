@@ -1,37 +1,101 @@
-## Welcome to GitHub Pages
+# Swoin
 
-You can use the [editor on GitHub](https://github.com/ajpolt/swoin/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Swoin is a dependency injection framework for Swift, inspired by [Koin](https://github.com/InsertKoinIO/koin)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Getting Started
 
-### Markdown
+Add the framework to your project, e.g., with Cocoapods:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+`pod 'Swoin'`
 
-```markdown
-Syntax highlighted code block
+Add your dependencies to some modules:
 
-# Header 1
-## Header 2
-### Header 3
+        let appModule = Module {
+            single { CustomNavigationController() }
+                .bind(UINavigationController.self)
+                
+            weak(named: "TestSubject") { PublishSubject<Void>() }
+                .bind(Observable<Void>.self) { $0.asObservable() }
+                .bind(AnyObserver<Void>.self) { $0.asObserver() }
+                
+            weak { HomeViewModel(input: get(), output: get()) }
+            weak { HomeViewController(viewModel: get(), view: get()) }
+            weak { HomeView() }
+        }
+        
+        let thingModule = Module {
+            factory { Thing() }
+            
+            single { ThingFetcher(thing: get()) }
+                .bind(IntFetcher.self)
+                .bind(StringFetcher.self)
+        }
+        
+Start the global Swoin instance:
 
-- Bulleted
-- List
+        startSwoin {
+            appModule
+            thingModule
+            logger(Swoin.printLogger)
+        }
+        
+Inject fields lazily, using @Inject:
 
-1. Numbered
-2. List
+        @Inject private var navigationController: CustomNavigationController
+        
+Or eagerly, using `get()`:
 
-**Bold** and _Italic_ and `Code` text
+        let controller: TipsViewController = get()
+        
+        rootViewController.pushViewController(controller, animated: true)
+        
+Named dependencies are supported:
 
-[Link](url) and ![Image](src)
-```
+        @Inject(named: "TestSubject") private var testObservable: Observable<Void>
+        
+        let observer: PublishSubject = get(named: "TestSubject")
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Cache types
 
-### Jekyll Themes
+Three types of caching strategies are supported:
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ajpolt/swoin/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+- A `single` dependency is created once as long as the module remains loaded, i.e., a singleton
+- A `factory` dependency is re-created any time it is resolved
+- A `weak` dependency is re-created if there are no other strong references to any previously created instance of that type
 
-### Support or Contact
+## Binding additional types
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+You may bind multiple types to a dependency registration using `.bind`, passing an optional closure to convert to that type:
+
+        weak(named: "TestSubject") { PublishSubject<Void>() }
+                .bind(Observable<Void>.self) { $0.asObservable() }
+                .bind(AnyObserver<Void>.self) { $0.asObserver() }
+                
+Bound types share the same name and cache strategy as the dependency they are bound to.
+
+The closure is optional if the original type implements a protocol, since the default is `{ $0 as! NewType }`, but obviously this will result in a runtime crash if the forced cast is not possible.
+
+## Running code after initialization:
+
+You may perform an action after a dependency is initialized using `.then`:
+
+        private class CircularDependencyOne {
+            let dependencyTwo: CircularDependencyTwo
+
+            init(_ dependencyTwo: CircularDependencyTwo) {
+                self.dependencyTwo = dependencyTwo
+            }
+        }
+
+        private class CircularDependencyTwo {
+            var dependencyOne: CircularDependencyOne?
+        }
+        
+        let testModule = Module {
+                single { CircularDependencyOne(get()) }
+                    .then {
+                        $0.dependencyTwo.dependencyOne = $0
+                    }
+
+                single { CircularDependencyTwo() }
+        }
