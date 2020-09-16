@@ -88,6 +88,12 @@ class ResolvableDependencySpec: QuickSpec {
                 }
             }
             
+            context("When attempting to bind to the same type twice") {
+                it("Throws a fatal error") {
+                    expect(_ = subject.bind(Thing.self)).to(throwAssertion())
+                }
+            }
+            
             context("when then is used") {
                 var thenDependency: ResolvableDependency<Thing>!
                 

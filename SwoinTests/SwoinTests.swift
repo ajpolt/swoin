@@ -47,6 +47,25 @@ class SwoinSpec: QuickSpec {
                 expect(module2.registerModuleCount).to(equal(1))
             }
             
+            context("When called twice without calling stopSwoin") {
+                it("throws a fatalError") {
+                    let module1 = MockModule()
+                    let module2 = MockModule()
+                    
+                    startSwoin {
+                        module1
+                        module2
+                    }
+                    
+                    expect(
+                        _ = startSwoin {
+                            module1
+                            module2
+                        }
+                    ).to(throwAssertion())
+                }
+            }
+            
             afterEach {
                 stopSwoin()
             }
@@ -164,6 +183,14 @@ class SwoinSpec: QuickSpec {
                 
                 it("gets the last-loaded dependency with requested name") {
                     expect(subject.get(Thing.self, named: "other").value).to(equal("456"))
+                }
+            }
+            
+            context("when no dependency of a given type exists") {
+                it("throws a fatalError") {
+                    class UnregisteredType {}
+                    
+                    expect(_ = subject.get(UnregisteredType.self)).to(throwAssertion())
                 }
             }
         }

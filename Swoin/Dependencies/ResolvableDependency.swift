@@ -31,7 +31,7 @@ public class ResolvableDependency<T>: Dependency {
 
     public func bind<NewType>(_ newType: NewType.Type,
                               _ converter: @escaping (T) -> NewType) -> BoundDependency<T, NewType> {
-        if T.self == NewType.self {
+        guard T.self != NewType.self else {
             fatalError("Attempt to bind \(NewType.self) to \(T.self) to . Binding twice to the same type is not allowed.")
         }
 

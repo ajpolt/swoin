@@ -309,6 +309,23 @@ class ModuleSpec: QuickSpec {
                     }
                 }
             }
+            
+            context("when attempting to bind to an unregistered type/name") {
+                it("throws a fatalError") {
+                    class UnregisteredType {}
+                    class SomeType {}
+                    
+                    expect(_ = subject.bind(additionalType: SomeType.self, to: UnregisteredType.self, named: nil)).to(throwAssertion())
+                }
+            }
+            
+            context("when attempting to resolve an unregistered type/name combination") {
+                it("throws a fatalError") {
+                    class UnregisteredType {}
+                    
+                    expect(_ = subject.resolve(UnregisteredType.self, named: nil)).to(throwAssertion())
+                }
+            }
         }
     }
 }
