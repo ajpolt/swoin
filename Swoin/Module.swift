@@ -7,15 +7,11 @@
 //
 
 public class Module: SwoinParameter {
-    public func register(swoin: Swoin) {
-        swoin.load(self)
-    }
-
     private var dependencies = [Int: [String?: Any]]()
 
     private var cacheHolder = CacheHolder()
 
-    fileprivate init() {}
+    init() {}
 
     public convenience init(@ModuleBuilder builder: () -> [Dependency]) {
         self.init()
@@ -25,6 +21,18 @@ public class Module: SwoinParameter {
         dependencies.forEach {
             $0.register(self)
         }
+    }
+
+    // Workaround for https://bugs.swift.org/browse/SR-11628
+    // Function builders will fail with 0 or 1 arguments
+    // It looks like there is a fix and it should be available in Swift 5.3
+    public convenience init(_ dependency: Dependency) {
+        self.init()
+        dependency.register(self)
+    }
+
+    public func register(swoin: Swoin) {
+        swoin.load(self)
     }
 
     func register<T>(_ type: T.Type = T.self,
@@ -86,18 +94,6 @@ public class Module: SwoinParameter {
         }
 
         return nil
-    }
-}
-
-// Workaround for https://bugs.swift.org/browse/SR-11628
-// Function builders will fail with 0 or 1 arguments
-// It looks like there is a fix and it should be available in Swift 5.3
-public class SingleDependencyModule: Module {
-    public init(builder: () -> Dependency) {
-        super.init()
-
-        let dependency = builder()
-        dependency.register(self)
     }
 }
 

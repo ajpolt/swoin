@@ -21,7 +21,7 @@ public class ResolvableDependency<T>: Dependency {
         module.register(T.self, named: name, cacheType: self.cacheType, factory: factory)
     }
 
-    public func bind<NewType>(_ type: NewType.Type) -> Dependency {
+    public func bind<NewType>(_ type: NewType.Type) -> BoundDependency<T, NewType> {
         let defaultConverter: (T) -> NewType = { dependency in
             dependency as! NewType
         }

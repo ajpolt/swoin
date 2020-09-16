@@ -14,7 +14,7 @@ public class Swoin {
 
     public var logger: ((String) -> Void) = emptyLogger
 
-    fileprivate var modules: [Module] = []
+    var modules: [Module] = []
 
     public static func start(@DIBuilder builder: () -> Swoin) -> Swoin {
         return builder()

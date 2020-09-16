@@ -1,0 +1,6 @@
+included:
+  - Swoin
+disabled_rules:
+  - type_name
+  - force_cast
+  - line_length

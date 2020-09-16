@@ -7,8 +7,8 @@
 //
 
 public class BoundDependency<ExistingType, AdditionalType>: Dependency {
-    private let wrappedDependency: Dependency
-    private let wrappedFactory: () -> ExistingType
+    let wrappedDependency: Dependency
+    let wrappedFactory: () -> ExistingType
 
     public let name: String?
     public let cacheType: CacheType
@@ -31,7 +31,7 @@ public class BoundDependency<ExistingType, AdditionalType>: Dependency {
         module.bind(additionalType: AdditionalType.self, to: ExistingType.self, named: name, converter: self.converter)
     }
 
-    public func bind<NewType>(_ type: NewType.Type) -> Dependency {
+    public func bind<NewType>(_ type: NewType.Type) -> BoundDependency<ExistingType, NewType> {
         return self.bind(type) {
             $0 as! NewType
         }
@@ -52,7 +52,7 @@ public class BoundDependency<ExistingType, AdditionalType>: Dependency {
                                                       converter: converter)
     }
 
-    public func then(_ closure: @escaping (ExistingType) -> Void) -> Dependency {
+    public func then(_ closure: @escaping (ExistingType) -> Void) -> ResolvableDependency<ExistingType> {
         return ResolvableDependency<ExistingType>(ExistingType.self, named: name, cacheType: self.cacheType) {
             let value = self.wrappedFactory()
             closure(value)
