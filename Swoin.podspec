@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "Swoin"
-  spec.version      = "0.0.3"
+  spec.version      = "0.0.4"
   spec.summary      = "A dependency injection library in Swift, inspired by Koin"
 
   spec.description  = <<-DESC
