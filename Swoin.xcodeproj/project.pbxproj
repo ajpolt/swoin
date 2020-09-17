@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60D2FC992513EF2F00AD9997 /* SwoinComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D2FC982513EF2F00AD9997 /* SwoinComponent.swift */; };
+		60D2FCA92513F4C200AD9997 /* XCTestCase+SwoinComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D2FCA82513F4C200AD9997 /* XCTestCase+SwoinComponent.swift */; };
 		60D37F79250BF20E00055C6D /* Swoin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60D37F6F250BF20E00055C6D /* Swoin.framework */; };
 		60D37F7E250BF20E00055C6D /* SwoinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D37F7D250BF20E00055C6D /* SwoinTests.swift */; };
 		60D37F80250BF20E00055C6D /* Swoin.h in Headers */ = {isa = PBXBuildFile; fileRef = 60D37F72250BF20E00055C6D /* Swoin.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -14,7 +16,6 @@
 		60D37F8D250BF24C00055C6D /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D37F8C250BF24C00055C6D /* Module.swift */; };
 		60D37F8F250BF27900055C6D /* CacheHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D37F8E250BF27900055C6D /* CacheHolder.swift */; };
 		60D37F91250BF29600055C6D /* Inject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D37F90250BF29600055C6D /* Inject.swift */; };
-		60D37F93250BF2A500055C6D /* Get.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D37F92250BF2A500055C6D /* Get.swift */; };
 		60D37F95250BF2E200055C6D /* DependencyEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D37F94250BF2E200055C6D /* DependencyEntry.swift */; };
 		60D37F97250BF2F800055C6D /* CacheType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D37F96250BF2F800055C6D /* CacheType.swift */; };
 		60D37F99250BF30D00055C6D /* FactoryDependencyCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D37F98250BF30D00055C6D /* FactoryDependencyCache.swift */; };
@@ -62,6 +63,8 @@
 /* Begin PBXFileReference section */
 		2EE5A3ECF4CCEDFD393BA61A /* Pods-Swoin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swoin.debug.xcconfig"; path = "Target Support Files/Pods-Swoin/Pods-Swoin.debug.xcconfig"; sourceTree = "<group>"; };
 		33D19A183FDA9041AA7D4DA5 /* Pods-Swoin-SwoinTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swoin-SwoinTests.debug.xcconfig"; path = "Target Support Files/Pods-Swoin-SwoinTests/Pods-Swoin-SwoinTests.debug.xcconfig"; sourceTree = "<group>"; };
+		60D2FC982513EF2F00AD9997 /* SwoinComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwoinComponent.swift; sourceTree = "<group>"; };
+		60D2FCA82513F4C200AD9997 /* XCTestCase+SwoinComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+SwoinComponent.swift"; sourceTree = "<group>"; };
 		60D37F6F250BF20E00055C6D /* Swoin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Swoin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		60D37F72250BF20E00055C6D /* Swoin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Swoin.h; sourceTree = "<group>"; };
 		60D37F73250BF20E00055C6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -72,7 +75,6 @@
 		60D37F8C250BF24C00055C6D /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		60D37F8E250BF27900055C6D /* CacheHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHolder.swift; sourceTree = "<group>"; };
 		60D37F90250BF29600055C6D /* Inject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inject.swift; sourceTree = "<group>"; };
-		60D37F92250BF2A500055C6D /* Get.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Get.swift; sourceTree = "<group>"; };
 		60D37F94250BF2E200055C6D /* DependencyEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyEntry.swift; sourceTree = "<group>"; };
 		60D37F96250BF2F800055C6D /* CacheType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheType.swift; sourceTree = "<group>"; };
 		60D37F98250BF30D00055C6D /* FactoryDependencyCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryDependencyCache.swift; sourceTree = "<group>"; };
@@ -130,6 +132,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		602564BA2513C87900CF6AC1 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				60D37F8C250BF24C00055C6D /* Module.swift */,
+				60D37F94250BF2E200055C6D /* DependencyEntry.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		602564BB2513C8A300CF6AC1 /* Injection */ = {
+			isa = PBXGroup;
+			children = (
+				60D37F90250BF29600055C6D /* Inject.swift */,
+			);
+			path = Injection;
+			sourceTree = "<group>";
+		};
 		60D37F65250BF20E00055C6D = {
 			isa = PBXGroup;
 			children = (
@@ -153,15 +172,14 @@
 		60D37F71250BF20E00055C6D /* Swoin */ = {
 			isa = PBXGroup;
 			children = (
+				602564BB2513C8A300CF6AC1 /* Injection */,
+				602564BA2513C87900CF6AC1 /* Modules */,
 				60D37FA2250BF3AA00055C6D /* Dependencies */,
 				60D37F8B250BF24000055C6D /* Cache */,
 				60D37F72250BF20E00055C6D /* Swoin.h */,
 				60D37F73250BF20E00055C6D /* Info.plist */,
 				60D37F89250BF23200055C6D /* Swoin.swift */,
-				60D37F8C250BF24C00055C6D /* Module.swift */,
-				60D37F90250BF29600055C6D /* Inject.swift */,
-				60D37F92250BF2A500055C6D /* Get.swift */,
-				60D37F94250BF2E200055C6D /* DependencyEntry.swift */,
+				60D2FC982513EF2F00AD9997 /* SwoinComponent.swift */,
 			);
 			path = Swoin;
 			sourceTree = "<group>";
@@ -169,6 +187,7 @@
 		60D37F7C250BF20E00055C6D /* SwoinTests */ = {
 			isa = PBXGroup;
 			children = (
+				60D2FCA82513F4C200AD9997 /* XCTestCase+SwoinComponent.swift */,
 				60D3802625126D9900055C6D /* Cache */,
 				60D38017251187E500055C6D /* Dependencies */,
 				60D3800C2511418500055C6D /* Mocks */,
@@ -464,6 +483,7 @@
 				60D37F91250BF29600055C6D /* Inject.swift in Sources */,
 				60D37F9B250BF32400055C6D /* SingleDependencyCache.swift in Sources */,
 				60D37FA4250BF3C200055C6D /* BoundDependency.swift in Sources */,
+				60D2FC992513EF2F00AD9997 /* SwoinComponent.swift in Sources */,
 				60D37F99250BF30D00055C6D /* FactoryDependencyCache.swift in Sources */,
 				60D37F95250BF2E200055C6D /* DependencyEntry.swift in Sources */,
 				60D37F8F250BF27900055C6D /* CacheHolder.swift in Sources */,
@@ -473,7 +493,6 @@
 				60D37F8D250BF24C00055C6D /* Module.swift in Sources */,
 				60D37F97250BF2F800055C6D /* CacheType.swift in Sources */,
 				60D37FA6250BF3DB00055C6D /* ResolvableDependency.swift in Sources */,
-				60D37F93250BF2A500055C6D /* Get.swift in Sources */,
 				60D37F9F250BF34E00055C6D /* DependencyCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,6 +508,7 @@
 				60D3802A251276BB00055C6D /* FactoryDependencyCacheTests.swift in Sources */,
 				60D38019251187F600055C6D /* SingleTests.swift in Sources */,
 				60D38009251130EB00055C6D /* GetTests.swift in Sources */,
+				60D2FCA92513F4C200AD9997 /* XCTestCase+SwoinComponent.swift in Sources */,
 				60D3802E251278AE00055C6D /* WeakDependencyCacheTests.swift in Sources */,
 				60D3802825126DBC00055C6D /* CacheHolderTests.swift in Sources */,
 				60D3802C2512781E00055C6D /* SingleDependencyCacheTests.swift in Sources */,

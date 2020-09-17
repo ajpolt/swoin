@@ -6,7 +6,7 @@
 //  Copyright © 2020 Adam Polt. All rights reserved.
 //
 
-public class Module: SwoinParameter {
+public class Module: SwoinParameter, SwoinComponent {
     private var dependencies = [Int: [String?: Any]]()
 
     private var cacheHolder = CacheHolder()
@@ -98,8 +98,20 @@ public class Module: SwoinParameter {
 }
 
 @_functionBuilder
-public struct ModuleBuilder {
+public struct ModuleBuilder: SwoinComponent {
     public static func buildBlock(_ dependencies: Dependency...) -> [Dependency] {
         return dependencies
     }
+}
+
+public func module(@ModuleBuilder builder: () -> [Dependency]) -> Module {
+    let module = Module()
+
+    let dependencies = builder()
+
+    dependencies.forEach {
+        $0.register(module)
+    }
+
+    return module
 }

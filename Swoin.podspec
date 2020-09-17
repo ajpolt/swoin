@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
 
   spec.source        = { :git => "https://github.com/ajpolt/swoin.git", :tag => "#{spec.version}" }
 
-  spec.source_files  = "Swoin", "Swoin/Dependencies", "Swoin/Cache"
+  spec.source_files  = "Swoin", "Swoin/Dependencies", "Swoin/Cache", "Swoin/Modules", "Swoin/Injection"
 
   spec.swift_version = '5.2'
   spec.ios.deployment_target  = '9.0'

@@ -38,7 +38,7 @@ class ModuleSpec: QuickSpec {
             context("after init with single dependency constructor") {
                 it("registers dependency") {
                     let dependency = MockDependency()
-                    subject = Module(dependency)
+                    subject = Module { dependency }
                     
                     expect(dependency.registerCount).to(be(1))
                 }
@@ -315,7 +315,7 @@ class ModuleSpec: QuickSpec {
                     class UnregisteredType {}
                     class SomeType {}
                     
-                    expect(_ = subject.bind(additionalType: SomeType.self, to: UnregisteredType.self, named: nil)).to(throwAssertion())
+                    expect(subject.bind(additionalType: SomeType.self, to: UnregisteredType.self, named: nil)).to(throwAssertion())
                 }
             }
             

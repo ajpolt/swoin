@@ -149,7 +149,7 @@ class SwoinSpec: QuickSpec {
             
             context("when a dependency of given type exists in a loaded module") {
                 beforeEach {
-                    let module: Module = Module(factory { Thing("123") })
+                    let module: Module = Module { factory { Thing("123") } }
                     subject.load(module)
                 }
                 
@@ -160,9 +160,9 @@ class SwoinSpec: QuickSpec {
             
             context("when multiple modules have a dependency of a given type with same name") {
                 beforeEach {
-                    let module: Module = Module(factory { Thing("123") })
-                    let otherModule: Module = Module(factory { Thing("456") })
-                    subject.load(module)
+                    let aModule: Module = module { factory { Thing("123") } }
+                    let otherModule: Module = module { factory { Thing("456") } }
+                    subject.load(aModule)
                     subject.load(otherModule)
                 }
                 
@@ -173,9 +173,9 @@ class SwoinSpec: QuickSpec {
             
             context("when multiple modules have a dependency of a given type with different names") {
                 beforeEach {
-                    let module: Module = Module(factory(named: "other") { Thing("123") })
-                    let otherModule: Module = Module(factory(named: "other") { Thing("456") })
-                    let thirdModule: Module = Module(factory { Thing("789") })
+                    let module: Module = Module { factory(named: "other") { Thing("123") } }
+                        let otherModule: Module = Module { factory(named: "other") { Thing("456") } }
+                            let thirdModule: Module = Module { factory { Thing("789") } }
                     subject.load(module)
                     subject.load(otherModule)
                     subject.load(thirdModule)
