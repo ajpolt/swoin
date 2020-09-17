@@ -9,6 +9,7 @@
 public protocol SwoinComponent {
     static var swoin: Swoin? { get }
     func get<T>(_ type: T.Type, named name: String?, swoin: Swoin?) -> T
+    static func get<T>(_ type: T.Type, named name: String?, swoin: Swoin?) -> T
 }
 
 public extension SwoinComponent {
@@ -17,6 +18,10 @@ public extension SwoinComponent {
     }
 
     func get<T>(_ type: T.Type = T.self, named name: String? = nil, swoin: Swoin? = Self.swoin) -> T {
+        return swoin?.get(type, named: name) ?? Swoin.global.get(type, named: name)
+    }
+
+    static func get<T>(_ type: T.Type = T.self, named name: String? = nil, swoin: Swoin? = Self.swoin) -> T {
         return swoin?.get(type, named: name) ?? Swoin.global.get(type, named: name)
     }
 }
