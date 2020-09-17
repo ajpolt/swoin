@@ -8,52 +8,68 @@ Add the framework to your project, e.g., with Cocoapods:
 
 `pod 'Swoin'`
 
-Add your dependencies to some modules:
+Add your dependencies to some modules, then pass them to the `startSwoin` builder to start the global Swoin instance:
 
-        let appModule = Module {
-            single { CustomNavigationController() }
-                .bind(UINavigationController.self)
-                
-            weak(named: "TestSubject") { PublishSubject<Void>() }
-                .bind(Observable<Void>.self) { $0.asObservable() }
-                .bind(AnyObserver<Void>.self) { $0.asObserver() }
-                
-            weak { HomeViewModel(input: get(), output: get()) }
-            weak { HomeViewController(viewModel: get(), view: get()) }
-            weak { HomeView() }
-        }
-        
-        let thingModule = Module {
-            factory { Thing() }
+    class SwoinCreator: SwoinComponent {
+        //...
+
+        func start() {
+            let appModule = Module {
+                single { CustomNavigationController() }
+                    .bind(UINavigationController.self)
+
+                weak(named: "TestSubject") { PublishSubject<Void>() }
+                    .bind(Observable<Void>.self) { $0.asObservable() }
+                    .bind(AnyObserver<Void>.self) { $0.asObserver() }
+
+                weak { HomeViewModel(input: get(), output: get()) }
+                weak { HomeViewController(viewModel: get(), view: get()) }
+                weak { HomeView() }
+            }
+
+            let thingModule = Module {
+                factory { Thing() }
+
+                single { ThingFetcher(thing: get()) }
+                    .bind(IntFetcher.self)
+                    .bind(StringFetcher.self)
+            }
             
-            single { ThingFetcher(thing: get()) }
-                .bind(IntFetcher.self)
-                .bind(StringFetcher.self)
+            startSwoin {
+                appModule
+                thingModule
+                logger(Swoin.printLogger)
+            }
         }
-        
-Start the global Swoin instance:
-
-        startSwoin {
-            appModule
-            thingModule
-            logger(Swoin.printLogger)
-        }
+    }
         
 Inject fields lazily, using @Inject:
 
-        @Inject private var navigationController: CustomNavigationController
+    @Inject private var navigationController: CustomNavigationController
         
 Or eagerly, using `get()`:
 
-        let controller: TipsViewController = get()
+    let controller: TipsViewController = get()
         
-        rootViewController.pushViewController(controller, animated: true)
+    rootViewController.pushViewController(controller, animated: true)
+        
+Note that `get()` can only be used if the calling class implements `SwoinComponent`:
+
+    // This is fine:
+    struct Cowboy: SwoinComponent {
+        var horse: Horse = get()
+    }
+
+    // This will not compile, "Cannot find 'get' in scope":
+    struct Horse {
+        let saddle: Saddle = get()
+    }
         
 Named dependencies are supported:
 
-        @Inject(named: "TestSubject") private var testObservable: Observable<Void>
+    @Inject(named: "TestSubject") private var testObservable: Observable<Void>
         
-        let observer: PublishSubject = get(named: "TestSubject")
+    let observer: PublishSubject = get(named: "TestSubject")
 
 ## Cache types
 
@@ -99,3 +115,4 @@ You may perform an action after a dependency is initialized using `.then`:
 
                 single { CircularDependencyTwo() }
         }
+
