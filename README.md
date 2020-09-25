@@ -14,7 +14,7 @@ Add your dependencies to some modules, then pass them to the `startSwoin` builde
         //...
 
         func start() {
-            let appModule = Module {
+            let appModule = module {
                 single { CustomNavigationController() }
                     .bind(UINavigationController.self)
 
@@ -27,7 +27,7 @@ Add your dependencies to some modules, then pass them to the `startSwoin` builde
                 weak { HomeView() }
             }
 
-            let thingModule = Module {
+            let thingModule = module {
                 factory { Thing() }
 
                 single { ThingFetcher(thing: get()) }
@@ -107,7 +107,7 @@ You may perform an action after a dependency is initialized using `.then`:
             var dependencyOne: CircularDependencyOne?
         }
         
-        let testModule = Module {
+        let testModule = module {
                 single { CircularDependencyOne(get()) }
                     .then {
                         $0.dependencyTwo.dependencyOne = $0
